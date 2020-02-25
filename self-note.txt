@@ -1,0 +1,10 @@
+by Haribalan
+
+18-Feb-2020,
+for licet,
+admission page as seperate angular project
+it includes register, login, otp and application form
+but database is common, hosting only different.
+
+19-Feb-2020
+application form ui done, 12th and lateral entry option added

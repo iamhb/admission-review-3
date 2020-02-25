@@ -1,0 +1,848 @@
+<!-- <mat-toolbar color="primary" class="col-sm-12 col-md-12 col-xl-12 col-lg-12 navbar container-fluid">
+    <div class="col-sm-6 col-md-6 col-xl-6 col-lg-6">
+        LICET
+    </div>
+    <div class="col-sm-6 col-md-6 col-xl-6 col-lg-6" style="text-align: right;">
+        <button mat-stroked-button style="color: black; background-color: white;">Save</button>
+        <button mat-stroked-button style="color: black; background-color: white;">Finalise</button>
+    </div>
+</mat-toolbar> -->
+<div>
+    <!-- <p>header works!</p> -->
+    <mat-toolbar color="primary" class="col-sm-12 col-md-12 col-xl-12 col-lg-12 navbar container-fluid">
+        <span class="col-sm-3 col-md-3 col-xl-3 col-lg-3">
+            LICET
+        </span>
+        <div class="col-sm-4 col-md-4 col-xl-4 col-lg-4" style="text-align: right;">
+            <span class="col-sm-6 col-md-6 col-xl-6 col-lg-6" *ngIf="!finalised" style="text-align: right;">
+                <button mat-stroked-button style="color: black;  background-color: white;"
+                    (click)="submitForm()">Save</button>
+            </span>
+            <span class="col-sm-6 col-md-6 col-xl-6 col-lg-6" *ngIf="!finalised" style="text-align: right;">
+                <button mat-stroked-button (click)="submitForm('F')"
+                    style="color: black; background-color: white;">Finalise</button>
+            </span>
+        </div>
+        <div class="col-sm-4 col-md-4 col-xl-4 col-lg-4" style="text-align: right;" *ngIf="finalised">
+            Admission Submitted
+        </div>
+    </mat-toolbar>
+</div>
+<div style=" padding-top: 1%;">
+    <div class="container-fluid" style="padding: 35px">
+        <mat-card class="row pad-zero">
+            <div></div>
+            <mat-card-title class="col-sm-12 col-md-12 col-xl-12 col-lg-12 card-head">
+                Choice Perferred
+            </mat-card-title>
+            <mat-card-content class="col-sm-12 col-md-12 col-xl-12 col-lg-12 card-body">
+                <mat-form-field class="col-sm-4 col-xl-4 col-lg-4 col-md-4" style="padding-left: 2%;">
+                    <mat-label>Choice 1</mat-label>
+                    <mat-select [(ngModel)]="stud.preferedCrs1">
+                        <mat-option value="CSE">CSE</mat-option>
+                        <mat-option value="ECE">ECE</mat-option>
+                        <mat-option value="EEE">EEE</mat-option>
+                        <mat-option value="IT">IT</mat-option>
+                        <mat-option value="MECH">MECH</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field class="col-sm-4 col-md-4 col-xl-4 col-lg-4 offset-md-2">
+                    <mat-label>Choice 2</mat-label>
+                    <mat-select [(ngModel)]="stud.preferedCrs2">
+                        <mat-option value="CSE">CSE</mat-option>
+                        <mat-option value="ECE">ECE</mat-option>
+                        <mat-option value="EEE">EEE</mat-option>
+                        <mat-option value="IT">IT</mat-option>
+                        <mat-option value="MECH">MECH</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </mat-card-content>
+        </mat-card>
+        <div style="padding-top: 1%;">
+            <mat-slide-toggle [(ngModel)]="stud.isLateralEntry">Lateral Entry</mat-slide-toggle>
+        </div>
+        <!-- 12th student start -->
+        <mat-card class="row pad-zero" style="margin-top: 1%;"
+            *ngIf="!stud.isLateralEntry || stud.isLateralEntry == undefined">
+            <mat-card-title class="col-sm-12 col-md-12 col-xl-12 col-lg-12 card-head">
+                For 12th Students
+            </mat-card-title>
+            <mat-card-content class="col-sm-12 col-md-12 col-xl-12 col-lg-12 card-body">
+                <div class="col-sm-12 col-md-12 col-xl-12 col-lg-12">
+                    <mat-form-field class="col-sm-2 col-md-2 col-xl-2 col-lg-2" style="padding-left: 2%;">
+                        <mat-label>Language</mat-label>
+                        <input matInput [(ngModel)]="stud.twelve.language">
+                    </mat-form-field>
+                    <mat-form-field class="offset-md-2 col-sm-2 col-md-2 col-xl-2 col-lg-2">
+                        <mat-label>English</mat-label>
+                        <input matInput [(ngModel)]="stud.twelve.english">
+                    </mat-form-field>
+                    <mat-form-field class="offset-md-2 col-sm-2 col-md-2 col-xl-2 col-lg-2">
+                        <mat-label>Physics</mat-label>
+                        <input matInput [(ngModel)]="stud.twelve.physics">
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-12 col-md-12 col-xl-12 col-lg-12">
+                    <mat-form-field class="col-sm-2 col-md-2 col-xl-2 col-lg-2" style="padding-left: 2%;">
+                        <mat-label>Chemistry</mat-label>
+                        <input matInput [(ngModel)]="stud.twelve.chemistry">
+                    </mat-form-field>
+                    <mat-form-field class="offset-md-2 col-sm-2 col-md-2 col-xl-2 col-lg-2">
+                        <mat-label>Maths</mat-label>
+                        <input matInput [(ngModel)]="stud.twelve.maths">
+                    </mat-form-field>
+                    <mat-form-field class="offset-md-2 col-sm-2 col-md-2 col-xl-2 col-lg-2">
+                        <mat-label>Bio/Computer</mat-label>
+                        <mat-select [(ngModel)]="stud.twelve.group">
+                            <mat-option value="Biology">Biology</mat-option>
+                            <mat-option value="ComputerScience">Computer Science</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-12 col-md-12 col-xl-12 col-lg-12">
+                    <mat-form-field class="col-sm-2 col-md-2 col-xl-2 col-lg-2" style="padding-left: 2%;">
+                        <mat-label>Total</mat-label>
+                        <input matInput [(ngModel)]="stud.twelve.total" (focus)="focusFunction()">
+                    </mat-form-field>
+                    <mat-form-field class="offset-md-2 col-sm-2 col-md-2 col-xl-2 col-lg-2">
+                        <mat-label>Cut-off Marks</mat-label>
+                        <input matInput [(ngModel)]="stud.twelve.cutoff">
+                    </mat-form-field>
+                </div>
+            </mat-card-content>
+        </mat-card>
+        <!-- 12th student end -->
+
+        <!-- Lateral Entry start -->
+        <mat-card class="row pad-zero" style="margin-top: 1%;" *ngIf="stud.isLateralEntry">
+            <mat-card-title class="col-sm-12 col-md-12 col-xl-12 col-lg-12 card-head">
+                For Lateral Entry Students
+            </mat-card-title>
+            <mat-card-content class="col-sm-12 col-md-12 col-xl-12 col-lg-12 card-body">
+                <!-- Semester 1 start-->
+                <div class="col-sm-12 col-md-12 col-xl-12 col-lg-12">
+                    <mat-label class="col-sm-1 col-md-1 col-xl-1 col-lg-1">Semester 1</mat-label>
+                    <mat-form-field class="col-sm-1 col-md-1 col-xl-1 col-lg-1" style="padding-left: 2%;">
+                        <mat-label></mat-label>
+                        <input matInput [(ngModel)]="stud.lateral.sem1.sub1">
+                    </mat-form-field>
+                    <mat-form-field class=" col-sm-1 col-md-1 col-xl-1 col-lg-1">
+                        <mat-label></mat-label>
+                        <input matInput [(ngModel)]="stud.lateral.sem1.sub2">
+                    </mat-form-field>
+                    <mat-form-field class=" col-sm-1 col-md-1 col-xl-1 col-lg-1">
+                        <mat-label></mat-label>
+                        <input matInput [(ngModel)]="stud.lateral.sem1.sub3">
+                    </mat-form-field>
+                    <mat-form-field class="col-sm-1 col-md-1 col-xl-1 col-lg-1" style="padding-left: 2%;">
+                        <mat-label></mat-label>
+                        <input matInput [(ngModel)]="stud.lateral.sem1.sub4">
+                    </mat-form-field>
+                    <mat-form-field class=" col-sm-1 col-md-1 col-xl-1 col-lg-1">
+                        <mat-label></mat-label>
+                        <input matInput [(ngModel)]="stud.lateral.sem1.sub5">
+                    </mat-form-field>
+                    <mat-form-field class=" col-sm-1 col-md-1 col-xl-1 col-lg-1">
+                        <mat-label></mat-label>
+                        <input matInput [(ngModel)]="stud.lateral.sem1.sub6">
+                    </mat-form-field>
+                    <mat-form-field class=" col-sm-1 col-md-1 col-xl-1 col-lg-1">
+                        <mat-label></mat-label>
+                        <input matInput [(ngModel)]="stud.lateral.sem1.sub7">
+                    </mat-form-field>
+                    <mat-form-field class=" col-sm-1 col-md-1 col-xl-1 col-lg-1">
+                        <mat-label></mat-label>
+                        <input matInput [(ngModel)]="stud.lateral.sem1.sub8">
+                    </mat-form-field>
+                    <mat-form-field class=" col-sm-1 col-md-1 col-xl-1 col-lg-1">
+                        <mat-label></mat-label>
+                        <input matInput [(ngModel)]="stud.lateral.sem1.sub9">
+                    </mat-form-field>
+                    <mat-form-field class=" col-sm-1 col-md-1 col-xl-1 col-lg-1">
+                        <mat-label></mat-label>
+                        <input matInput [(ngModel)]="stud.lateral.sem1.sub10">
+                    </mat-form-field>
+                </div>
+                <mat-divider></mat-divider>
+                <!-- Semester 1 end-->
+                <!-- Semester 2 start-->
+                <div class="col-sm-12 col-md-12 col-xl-12 col-lg-12">
+                    <mat-label class="col-sm-1 col-md-1 col-xl-1 col-lg-1">Semester 2</mat-label>
+                    <mat-form-field class="col-sm-1 col-md-1 col-xl-1 col-lg-1" style="padding-left: 2%;">
+                        <mat-label></mat-label>
+                        <input matInput [(ngModel)]="stud.lateral.sem2.sub1">
+                    </mat-form-field>
+                    <mat-form-field class=" col-sm-1 col-md-1 col-xl-1 col-lg-1">
+                        <mat-label></mat-label>
+                        <input matInput [(ngModel)]="stud.lateral.sem2.sub2">
+                    </mat-form-field>
+                    <mat-form-field class=" col-sm-1 col-md-1 col-xl-1 col-lg-1">
+                        <mat-label></mat-label>
+                        <input matInput [(ngModel)]="stud.lateral.sem2.sub3">
+                    </mat-form-field>
+                    <mat-form-field class="col-sm-1 col-md-1 col-xl-1 col-lg-1" style="padding-left: 2%;">
+                        <mat-label></mat-label>
+                        <input matInput [(ngModel)]="stud.lateral.sem2.sub4">
+                    </mat-form-field>
+                    <mat-form-field class=" col-sm-1 col-md-1 col-xl-1 col-lg-1">
+                        <mat-label></mat-label>
+                        <input matInput [(ngModel)]="stud.lateral.sem2.sub5">
+                    </mat-form-field>
+                    <mat-form-field class=" col-sm-1 col-md-1 col-xl-1 col-lg-1">
+                        <mat-label></mat-label>
+                        <input matInput [(ngModel)]="stud.lateral.sem2.sub6">
+                    </mat-form-field>
+                    <mat-form-field class=" col-sm-1 col-md-1 col-xl-1 col-lg-1">
+                        <mat-label></mat-label>
+                        <input matInput [(ngModel)]="stud.lateral.sem2.sub7">
+                    </mat-form-field>
+                    <mat-form-field class=" col-sm-1 col-md-1 col-xl-1 col-lg-1">
+                        <mat-label></mat-label>
+                        <input matInput [(ngModel)]="stud.lateral.sem2.sub8">
+                    </mat-form-field>
+                    <mat-form-field class=" col-sm-1 col-md-1 col-xl-1 col-lg-1">
+                        <mat-label></mat-label>
+                        <input matInput [(ngModel)]="stud.lateral.sem2.sub9">
+                    </mat-form-field>
+                    <mat-form-field class=" col-sm-1 col-md-1 col-xl-1 col-lg-1">
+                        <mat-label></mat-label>
+                        <input matInput [(ngModel)]="stud.lateral.sem2.sub10">
+                    </mat-form-field>
+                </div>
+                <mat-divider></mat-divider>
+                <!-- Semester 2 end-->
+                <!-- Semester 3 start-->
+                <div class="col-sm-12 col-md-12 col-xl-12 col-lg-12">
+                    <mat-label class="col-sm-1 col-md-1 col-xl-1 col-lg-1">Semester 3</mat-label>
+                    <mat-form-field class="col-sm-1 col-md-1 col-xl-1 col-lg-1" style="padding-left: 2%;">
+                        <mat-label></mat-label>
+                        <input matInput [(ngModel)]="stud.lateral.sem3.sub1">
+                    </mat-form-field>
+                    <mat-form-field class=" col-sm-1 col-md-1 col-xl-1 col-lg-1">
+                        <mat-label></mat-label>
+                        <input matInput [(ngModel)]="stud.lateral.sem3.sub2">
+                    </mat-form-field>
+                    <mat-form-field class=" col-sm-1 col-md-1 col-xl-1 col-lg-1">
+                        <mat-label></mat-label>
+                        <input matInput [(ngModel)]="stud.lateral.sem3.sub3">
+                    </mat-form-field>
+                    <mat-form-field class="col-sm-1 col-md-1 col-xl-1 col-lg-1" style="padding-left: 2%;">
+                        <mat-label></mat-label>
+                        <input matInput [(ngModel)]="stud.lateral.sem3.sub4">
+                    </mat-form-field>
+                    <mat-form-field class=" col-sm-1 col-md-1 col-xl-1 col-lg-1">
+                        <mat-label></mat-label>
+                        <input matInput [(ngModel)]="stud.lateral.sem3.sub5">
+                    </mat-form-field>
+                    <mat-form-field class=" col-sm-1 col-md-1 col-xl-1 col-lg-1">
+                        <mat-label></mat-label>
+                        <input matInput [(ngModel)]="stud.lateral.sem3.sub6">
+                    </mat-form-field>
+                    <mat-form-field class=" col-sm-1 col-md-1 col-xl-1 col-lg-1">
+                        <mat-label></mat-label>
+                        <input matInput [(ngModel)]="stud.lateral.sem3.sub7">
+                    </mat-form-field>
+                    <mat-form-field class=" col-sm-1 col-md-1 col-xl-1 col-lg-1">
+                        <mat-label></mat-label>
+                        <input matInput [(ngModel)]="stud.lateral.sem3.sub8">
+                    </mat-form-field>
+                    <mat-form-field class=" col-sm-1 col-md-1 col-xl-1 col-lg-1">
+                        <mat-label></mat-label>
+                        <input matInput [(ngModel)]="stud.lateral.sem3.sub9">
+                    </mat-form-field>
+                    <mat-form-field class=" col-sm-1 col-md-1 col-xl-1 col-lg-1">
+                        <mat-label></mat-label>
+                        <input matInput [(ngModel)]="stud.lateral.sem3.sub10">
+                    </mat-form-field>
+                </div>
+                <mat-divider></mat-divider>
+                <!-- Semester 3 end-->
+                <!-- Semester 4 start-->
+                <div class="col-sm-12 col-md-12 col-xl-12 col-lg-12">
+                    <mat-label class="col-sm-1 col-md-1 col-xl-1 col-lg-1">Semester 4</mat-label>
+                    <mat-form-field class="col-sm-1 col-md-1 col-xl-1 col-lg-1" style="padding-left: 2%;">
+                        <mat-label></mat-label>
+                        <input matInput [(ngModel)]="stud.lateral.sem4.sub1">
+                    </mat-form-field>
+                    <mat-form-field class=" col-sm-1 col-md-1 col-xl-1 col-lg-1">
+                        <mat-label></mat-label>
+                        <input matInput [(ngModel)]="stud.lateral.sem4.sub2">
+                    </mat-form-field>
+                    <mat-form-field class=" col-sm-1 col-md-1 col-xl-1 col-lg-1">
+                        <mat-label></mat-label>
+                        <input matInput [(ngModel)]="stud.lateral.sem4.sub3">
+                    </mat-form-field>
+                    <mat-form-field class="col-sm-1 col-md-1 col-xl-1 col-lg-1" style="padding-left: 2%;">
+                        <mat-label></mat-label>
+                        <input matInput [(ngModel)]="stud.lateral.sem4.sub4">
+                    </mat-form-field>
+                    <mat-form-field class=" col-sm-1 col-md-1 col-xl-1 col-lg-1">
+                        <mat-label></mat-label>
+                        <input matInput [(ngModel)]="stud.lateral.sem4.sub5">
+                    </mat-form-field>
+                    <mat-form-field class=" col-sm-1 col-md-1 col-xl-1 col-lg-1">
+                        <mat-label></mat-label>
+                        <input matInput [(ngModel)]="stud.lateral.sem4.sub6">
+                    </mat-form-field>
+                    <mat-form-field class=" col-sm-1 col-md-1 col-xl-1 col-lg-1">
+                        <mat-label></mat-label>
+                        <input matInput [(ngModel)]="stud.lateral.sem4.sub7">
+                    </mat-form-field>
+                    <mat-form-field class=" col-sm-1 col-md-1 col-xl-1 col-lg-1">
+                        <mat-label></mat-label>
+                        <input matInput [(ngModel)]="stud.lateral.sem4.sub8">
+                    </mat-form-field>
+                    <mat-form-field class=" col-sm-1 col-md-1 col-xl-1 col-lg-1">
+                        <mat-label></mat-label>
+                        <input matInput [(ngModel)]="stud.lateral.sem4.sub9">
+                    </mat-form-field>
+                    <mat-form-field class=" col-sm-1 col-md-1 col-xl-1 col-lg-1">
+                        <mat-label></mat-label>
+                        <input matInput [(ngModel)]="stud.lateral.sem4.sub10">
+                    </mat-form-field>
+                </div>
+                <mat-divider></mat-divider>
+                <!-- Semester 4 end-->
+                <!-- Semester 5 start-->
+                <div class="col-sm-12 col-md-12 col-xl-12 col-lg-12">
+                    <mat-label class="col-sm-1 col-md-1 col-xl-1 col-lg-1">Semester 5</mat-label>
+                    <mat-form-field class="col-sm-1 col-md-1 col-xl-1 col-lg-1" style="padding-left: 2%;">
+                        <mat-label></mat-label>
+                        <input matInput [(ngModel)]="stud.lateral.sem5.sub1">
+                    </mat-form-field>
+                    <mat-form-field class=" col-sm-1 col-md-1 col-xl-1 col-lg-1">
+                        <mat-label></mat-label>
+                        <input matInput [(ngModel)]="stud.lateral.sem5.sub2">
+                    </mat-form-field>
+                    <mat-form-field class=" col-sm-1 col-md-1 col-xl-1 col-lg-1">
+                        <mat-label></mat-label>
+                        <input matInput [(ngModel)]="stud.lateral.sem5.sub3">
+                    </mat-form-field>
+                    <mat-form-field class="col-sm-1 col-md-1 col-xl-1 col-lg-1" style="padding-left: 2%;">
+                        <mat-label></mat-label>
+                        <input matInput [(ngModel)]="stud.lateral.sem5.sub4">
+                    </mat-form-field>
+                    <mat-form-field class=" col-sm-1 col-md-1 col-xl-1 col-lg-1">
+                        <mat-label></mat-label>
+                        <input matInput [(ngModel)]="stud.lateral.sem5.sub5">
+                    </mat-form-field>
+                    <mat-form-field class=" col-sm-1 col-md-1 col-xl-1 col-lg-1">
+                        <mat-label></mat-label>
+                        <input matInput [(ngModel)]="stud.lateral.sem5.sub6">
+                    </mat-form-field>
+                    <mat-form-field class=" col-sm-1 col-md-1 col-xl-1 col-lg-1">
+                        <mat-label></mat-label>
+                        <input matInput [(ngModel)]="stud.lateral.sem5.sub7">
+                    </mat-form-field>
+                    <mat-form-field class=" col-sm-1 col-md-1 col-xl-1 col-lg-1">
+                        <mat-label></mat-label>
+                        <input matInput [(ngModel)]="stud.lateral.sem5.sub8">
+                    </mat-form-field>
+                    <mat-form-field class=" col-sm-1 col-md-1 col-xl-1 col-lg-1">
+                        <mat-label></mat-label>
+                        <input matInput [(ngModel)]="stud.lateral.sem5.sub9">
+                    </mat-form-field>
+                    <mat-form-field class=" col-sm-1 col-md-1 col-xl-1 col-lg-1">
+                        <mat-label></mat-label>
+                        <input matInput [(ngModel)]="stud.lateral.sem5.sub10">
+                    </mat-form-field>
+                </div>
+                <mat-divider></mat-divider>
+                <!-- Semester 5 end-->
+                <!-- Semester 6 start-->
+                <div class="col-sm-12 col-md-12 col-xl-12 col-lg-12">
+                    <mat-label class="col-sm-1 col-md-1 col-xl-1 col-lg-1">Semester 6</mat-label>
+                    <mat-form-field class="col-sm-1 col-md-1 col-xl-1 col-lg-1" style="padding-left: 2%;">
+                        <mat-label></mat-label>
+                        <input matInput [(ngModel)]="stud.lateral.sem6.sub1">
+                    </mat-form-field>
+                    <mat-form-field class=" col-sm-1 col-md-1 col-xl-1 col-lg-1">
+                        <mat-label></mat-label>
+                        <input matInput [(ngModel)]="stud.lateral.sem6.sub2">
+                    </mat-form-field>
+                    <mat-form-field class=" col-sm-1 col-md-1 col-xl-1 col-lg-1">
+                        <mat-label></mat-label>
+                        <input matInput [(ngModel)]="stud.lateral.sem6.sub3">
+                    </mat-form-field>
+                    <mat-form-field class="col-sm-1 col-md-1 col-xl-1 col-lg-1" style="padding-left: 2%;">
+                        <mat-label></mat-label>
+                        <input matInput [(ngModel)]="stud.lateral.sem6.sub4">
+                    </mat-form-field>
+                    <mat-form-field class=" col-sm-1 col-md-1 col-xl-1 col-lg-1">
+                        <mat-label></mat-label>
+                        <input matInput [(ngModel)]="stud.lateral.sem6.sub5">
+                    </mat-form-field>
+                    <mat-form-field class=" col-sm-1 col-md-1 col-xl-1 col-lg-1">
+                        <mat-label></mat-label>
+                        <input matInput [(ngModel)]="stud.lateral.sem6.sub6">
+                    </mat-form-field>
+                    <mat-form-field class=" col-sm-1 col-md-1 col-xl-1 col-lg-1">
+                        <mat-label></mat-label>
+                        <input matInput [(ngModel)]="stud.lateral.sem6.sub7">
+                    </mat-form-field>
+                    <mat-form-field class=" col-sm-1 col-md-1 col-xl-1 col-lg-1">
+                        <mat-label></mat-label>
+                        <input matInput [(ngModel)]="stud.lateral.sem6.sub8">
+                    </mat-form-field>
+                    <mat-form-field class=" col-sm-1 col-md-1 col-xl-1 col-lg-1">
+                        <mat-label></mat-label>
+                        <input matInput [(ngModel)]="stud.lateral.sem6.sub9">
+                    </mat-form-field>
+                    <mat-form-field class=" col-sm-1 col-md-1 col-xl-1 col-lg-1">
+                        <mat-label></mat-label>
+                        <input matInput [(ngModel)]="stud.lateral.sem6.sub10">
+                    </mat-form-field>
+                </div>
+                <mat-divider></mat-divider>
+                <!-- Semester 6 end-->
+                <div class="col-sm-12 col-md-12 col-xl-12 col-lg-12">
+                    <!-- <mat-label class="col-sm-1 col-md-1 col-xl-1 col-lg-1">Semester 6</mat-label> -->
+                    <mat-form-field class="col-sm-2 col-md-2 col-xl-2 col-lg-2">
+                        <mat-label>Total</mat-label>
+                        <input matInput [(ngModel)]="stud.lateralTotal">
+                    </mat-form-field>
+                    <mat-form-field class="col-sm-2 col-md-2 col-xl-2 col-lg-2">
+                        <mat-label>Percentage</mat-label>
+                        <input matInput [(ngModel)]="stud.lateralPercentage">
+                    </mat-form-field>
+                </div>
+            </mat-card-content>
+        </mat-card>
+        <!-- Lateral Entry end -->
+
+        <mat-card class="row pad-zero marg-tp-head">
+            <mat-card-title class="col-sm-12 col-md-12 col-xl-12 col-lg-12 card-head">
+                Personal Details
+            </mat-card-title>
+            <mat-card-content class="col-sm-12 col-md-12 col-xl-12 col-lg-12 card-body">
+                <div class="col-sm-6 col-md-6 inline-blk">
+                    <mat-form-field class="col-sm-6 col-md-6 col-xl-6 col-lg-6">
+                        <mat-label>Name</mat-label>
+                        <input matInput [(ngModel)]="stud.name" required>
+                    </mat-form-field>
+                    <mat-form-field class="col-sm-6 col-md-6 col-xl-6 col-lg-6">
+                        <mat-label>Date of birth</mat-label>
+                        <input matInput [matDatepicker]="dob" [(ngModel)]="stud.dob"
+                            (dateInput)="getDobValue($event.value)">
+                        <mat-datepicker-toggle matSuffix [for]="dob">
+                        </mat-datepicker-toggle>
+                        <mat-datepicker #dob></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-6 col-md-6 inline-blk">
+                    <mat-form-field class="col-sm-3 col-md-3 col-xl-3 col-lg-3">
+                        <mat-label>Gender</mat-label>
+                        <mat-select [(ngModel)]="stud.gender">
+                            <mat-option value="Male">Male</mat-option>
+                            <mat-option value="Female">Female</mat-option>
+                            <mat-option value="Transgender">Transgender</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field class="col-sm-3 col-md-3 col-xl-3 col-lg-3">
+                        <mat-label>Blood Group</mat-label>
+                        <input matInput [(ngModel)]="stud.bloodGrp">
+                    </mat-form-field>
+                    <mat-form-field class="col-sm-4 col-md-4 col-xl-4 col-lg-4">
+                        <mat-label>Mother Tongue</mat-label>
+                        <input matInput [(ngModel)]="stud.motherTongue">
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-6 col-md-6 inline-blk">
+                    <mat-form-field class="col-sm-6 col-md-6 col-xl-6 col-lg-6">
+                        <mat-label>Community(as in T.C.)</mat-label>
+                        <mat-select [(ngModel)]="stud.community">
+                            <mat-option value="OC">OC</mat-option>
+                            <mat-option value="BC">BC</mat-option>
+                            <mat-option value="BCM">BCM</mat-option>
+                            <mat-option value="MBC">MBC</mat-option>
+                            <mat-option value="DNC">DNC</mat-option>
+                            <mat-option value="SC">SC</mat-option>
+                            <mat-option value="SCA">SCA</mat-option>
+                            <mat-option value="ST">ST</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field class="col-sm-6 col-md-6 col-xl-6 col-lg-6">
+                        <mat-label>Caste</mat-label>
+                        <input matInput [(ngModel)]="stud.caste">
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-6 col-md-6 inline-blk">
+                    <mat-form-field class="col-sm-5 col-md-5 col-xl-5 col-lg-5">
+                        <mat-label>Roman Catholic</mat-label>
+                        <mat-select [(ngModel)]="stud.romanCath">
+                            <mat-option value="YES">YES</mat-option>
+                            <mat-option value="NO">NO</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field class="col-sm-5 col-md-5 col-xl-5 col-lg-5">
+                        <mat-label>Dalit Catholic(optional)</mat-label>
+                        <mat-select [(ngModel)]="stud.dalitCath">
+                            <mat-option value="YES">YES</mat-option>
+                            <mat-option value="NO">NO</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-6 col-md-6 inline-blk">
+                    <mat-form-field class="col-sm-6 col-md-6 col-xl-6 col-lg-6">
+                        <mat-label>Name and Place of the Parish</mat-label>
+                        <input matInput [(ngModel)]="stud.parishNP">
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-6 col-md-6 inline-blk">
+                    <mat-form-field class="col-sm-5 col-md-5 col-xl-5 col-lg-5">
+                        <mat-label>Religion</mat-label>
+                        <mat-select [(ngModel)]="stud.religion">
+                            <mat-option value="Christian">Christian</mat-option>
+                            <mat-option value="Hindu">Hindu</mat-option>
+                            <mat-option value="Muslim">Muslim</mat-option>
+                            <mat-option value="Others">Others</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field class="col-sm-5 col-md-5 col-xl-5 col-lg-5">
+                        <mat-label>Mention if others</mat-label>
+                        <input matInput [(ngModel)]="stud.otherReligion">
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-6 col-md-6 inline-blk">
+                    <mat-form-field class="col-sm-6 col-md-6 col-xl-6 col-lg-6">
+                        <mat-label>Aadhaar Number</mat-label>
+                        <input matInput [(ngModel)]="stud.aadhar">
+                    </mat-form-field>
+                </div>
+            </mat-card-content>
+        </mat-card>
+
+        <mat-card class="row pad-zero marg-tp-head">
+            <mat-card-title class="col-sm-12 col-md-12 col-xl-12 col-lg-12 card-head">
+                Other Details
+            </mat-card-title>
+            <mat-card-content class="col-sm-12 col-md-12 col-xl-12 col-lg-12 card-body">
+                <div class="col-sm-6 col-md-6 col-xl-6 col-lg-6 inline-blk"
+                    style="margin-bottom: 15px; padding-left: 2%;">
+                    <mat-label>
+                        Do you need hostel accoummodation?
+                    </mat-label>
+                    <mat-radio-group color="primary" [(ngModel)]="stud.hostel">
+                        <mat-radio-button style="margin-left: 30px;" value=true>Yes</mat-radio-button>
+                        <mat-radio-button style="margin-left: 20px;" value=false>No</mat-radio-button>
+                    </mat-radio-group>
+                </div>
+                <div class="col-sm-6 col-md-6  col-xl-6 col-lg-6 inline-blk"
+                    style="margin-bottom: 15px; padding-left: 2%;">
+                    <mat-label>
+                        Do you need college bus for transport?
+                    </mat-label>
+                    <mat-radio-group color="primary" [(ngModel)]="stud.clgBus">
+                        <mat-radio-button style="margin-left: 30px;" value=true>Yes</mat-radio-button>
+                        <mat-radio-button style="margin-left: 20px;" value=false>No</mat-radio-button>
+                    </mat-radio-group>
+                </div>
+                <div class=" col-sm-12 col-md-12 col-xl-12 col-lg-12 inline-blk" style="padding-left: 2%;">
+                    <mat-label>
+                        Extra-curricular activites
+                    </mat-label>
+                    <mat-checkbox style="margin-left: 30px;" [(ngModel)]="stud.ncc">NCC</mat-checkbox>
+                    <mat-checkbox style="margin-left: 20px;" [(ngModel)]="stud.nss">NSS</mat-checkbox>
+                    <mat-checkbox style="margin-left: 20px;" [(ngModel)]="stud.sports">Sports</mat-checkbox>
+                    <mat-form-field style="margin-left: 20px;">
+                        <mat-label>Others</mat-label>
+                        <input matInput [(ngModel)]="stud.otherSports">
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-12 col-md-12 col-xl-12 col-lg-12 inline-blk" style="margin-bottom: 15px;">
+                    <mat-form-field class="col-sm-9 col-md-9">
+                        <mat-label>Name and Place Of the School</mat-label>
+                        <input matInput [(ngModel)]="stud.schoolNP">
+                    </mat-form-field>
+                </div>
+                <div *ngIf="!stud.isLateralEntry">
+                    <div class="col-sFm-6 col-md-6 col-xl-6 col-lg-6 inline-blk"
+                        style="margin-bottom: 15px; padding-left: 2%;">
+                        <mat-label>
+                            Medium of instruction in +2
+                        </mat-label>
+                        <mat-radio-group color="primary" [(ngModel)]="stud.twelveMedium">
+                            <mat-radio-button style="margin-left: 30px;" value="Tamil">Tamil</mat-radio-button>
+                            <mat-radio-button style="margin-left: 20px;" value="English">English
+                            </mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+                    <div class="col-sm-6 col-md-6 col-xl-6 col-lg-6 inline-blk">
+                        <mat-form-field class="col-sm-5 col-md-5 col-xl-5 col-lg-5">
+                            <mat-label>Register number</mat-label>
+                            <input matInput [(ngModel)]="stud.twelveRegNo">
+                        </mat-form-field>
+                        <mat-form-field class="col-sm-5 col-md-5 col-xl-5 col-lg-5 ">
+                            <mat-label>T.C. number</mat-label>
+                            <input matInput [(ngModel)]="stud.twelveTcNumber">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-sm-6 col-md-6 col-xl-6 col-lg-6 inline-blk">
+                        <mat-form-field class="col-sm-5 col-md-5 col-xl-5 col-lg-5">
+                            <mat-label>Year of passing</mat-label>
+                            <input matInput [(ngModel)]="stud.twelveYrOfPass">
+                        </mat-form-field>
+                        <mat-form-field class="col-sm-5 col-md-5 col-xl-5 col-lg-5">
+                            <mat-label>No of attempts(if any)</mat-label>
+                            <input matInput [(ngModel)]="stud.twelveNoOfAttempts">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-sm-6 col-md-6 col-xl-6 col-lg-6 inline-blk" style="padding-left: 2%;">
+                        <mat-label>
+                            Name of the board
+                        </mat-label>
+                        <!-- <mat-checkbox style="margin-left: 30px;">HSC</mat-checkbox>
+                        <mat-checkbox style="margin-left: 20px;">CBSC</mat-checkbox>
+                        <mat-checkbox style="margin-left: 20px;">ISC</mat-checkbox> -->
+                        <mat-radio-group color="primary" [(ngModel)]="stud.twelveBoardName">
+                            <mat-radio-button style="margin-left: 30px;" value="Tamil">HSC</mat-radio-button>
+                            <mat-radio-button style="margin-left: 20px;" value="English">CBCS</mat-radio-button>
+                            <mat-radio-button style="margin-left: 20px;" value="English">ISC</mat-radio-button>
+                        </mat-radio-group>
+                        <mat-form-field style="margin-left: 20px;" class="col-sm-2 col-md-2 col-xl-2 col-lg-2">
+                            <mat-label>Others</mat-label>
+                            <input matInput [(ngModel)]="stud.twelveBoardNameOther">
+                        </mat-form-field>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+
+        <mat-card class="row pad-zero marg-tp-head">
+            <mat-card-title class="col-sm-12 col-md-12 col-xl-12 col-lg-12 card-head">
+                Parents Details
+            </mat-card-title>
+            <mat-card-content class="col-sm-12 col-md-12 col-xl-12 col-lg-12 card-body">
+                <div class="col-sm-6 col-md-6 col-xl-6 col-lg-6 inline-blk" style="padding-left: 2%;">
+                    <mat-label><b>FATHER</b></mat-label>
+                </div>
+                <div class="col-sm-6 col-md-6 col-xl-6 col-lg-6 inline-blk" style="padding-left: 2%;">
+                    <mat-label><b>MOTHER</b></mat-label>
+                </div>
+                <div class="col-sm-6 col-md-6 col-xl-6 col-lg-6 inline-blk">
+                    <mat-form-field class="col-sm-10 col-md-10 col-xl-10 col-lg-10 ">
+                        <mat-label>Name</mat-label>
+                        <input matInput [(ngModel)]="stud.fatherName" required>
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-6 col-md-6 col-xl-6 col-lg-6 inline-blk">
+                    <mat-form-field class="col-sm-10 col-md-10 col-xl-10 col-lg-10">
+                        <mat-label>Name</mat-label>
+                        <input matInput [(ngModel)]="stud.motherName" required>
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-6 col-md-6 col-xl-6 col-lg-6 inline-blk">
+                    <mat-form-field class="col-sm-10 col-md-10 col-xl-10 col-lg-10 ">
+                        <mat-label>Qualification</mat-label>
+                        <input matInput [(ngModel)]="stud.fatherQual">
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-6 col-md-6 col-xl-6 col-lg-6 inline-blk">
+                    <mat-form-field class="col-sm-10 col-md-10 col-xl-10 col-lg-10 ">
+                        <mat-label>Qualification</mat-label>
+                        <input matInput [(ngModel)]="stud.motherQual">
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-6 col-md-6 col-xl-6 col-lg-6 inline-blk">
+                    <mat-form-field class="col-sm-10 col-md-10 col-xl-10 col-lg-10 ">
+                        <mat-label>Desgination</mat-label>
+                        <input matInput [(ngModel)]="stud.fatherDesig">
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-6 col-md-6 col-xl-6 col-lg-6 inline-blk">
+                    <mat-form-field class="col-sm-10 col-md-10 col-xl-10 col-lg-10">
+                        <mat-label>Desgination</mat-label>
+                        <input matInput [(ngModel)]="stud.motherDesig">
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-6 col-md-6 col-xl-6 col-lg-6 inline-blk">
+                    <mat-form-field class="col-sm-10 col-md-10 col-xl-10 col-lg-10">
+                        <mat-label>Monthly income</mat-label>
+                        <input matInput [(ngModel)]="stud.fatherMonthIncome">
+                    </mat-form-field>
+                </div>
+                <div class=" col-sm-6 col-md-6 col-xl-6 col-lg-6 inline-blk">
+                    <mat-form-field class="col-sm-10 col-md-10 col-xl-10 col-lg-10">
+                        <mat-label>Monthly income</mat-label>
+                        <input matInput [(ngModel)]="stud.motherMonthIncome">
+                    </mat-form-field>
+                </div>
+                <div class=" col-sm-6 col-md-6 col-xl-6 col-lg-6 inline-blk">
+                    <mat-form-field class="col-sm-10 col-md-10 col-xl-10 col-lg-10">
+                        <mat-label>Mobile/Office landline number</mat-label>
+                        <input matInput [(ngModel)]="stud.fatherContact" required>
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-6 col-md-6 col-xl-6 col-lg-6 inline-blk">
+                    <mat-form-field class="col-sm-10 col-md-10 col-xl-10 col-lg-10">
+                        <mat-label>Mobile/Office landline number</mat-label>
+                        <input matInput [(ngModel)]="stud.motherContact" required>
+                    </mat-form-field>
+                </div>
+            </mat-card-content>
+        </mat-card>
+
+        <mat-card class="row pad-zero marg-tp-head">
+            <mat-card-title class="col-sm-12 col-md-12 col-xl-12 col-lg-12 card-head">
+                Address For Communication
+            </mat-card-title>
+            <mat-card-content class="col-sm-12 col-md-12 col-xl-12 col-lg-12 card-body">
+                <div class="col-sm-12 col-md-12 inline-blk">
+                    <mat-form-field class="col-sm-11 col-md-11 col-xl-11 col-lg-11">
+                        <mat-label>Address line 1</mat-label>
+                        <input matInput [(ngModel)]="stud.addressLine1" required>
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-12 col-md-12 col-xl-12 col-lg-12 inline-blk">
+                    <mat-form-field class="col-sm-11 col-md-11 col-xl-11 col-lg-11">
+                        <mat-label>Address line 2</mat-label>
+                        <input matInput [(ngModel)]="stud.addressLine2" required>
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-12 col-md-12 col-xl-12 col-lg-12 inline-blk">
+                    <mat-form-field class="col-sm-11 col-md-11 col-xl-11 col-lg-11">
+                        <mat-label>Address line 3</mat-label>
+                        <input matInput [(ngModel)]="stud.addressLine3" required>
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-6 col-md-6 col-xl-6 col-lg-6 inline-blk">
+                    <mat-form-field class="col-sm-5 col-md-5 col-xl-5 col-lg-5">
+                        <mat-label>Taluk</mat-label>
+                        <input matInput [(ngModel)]="stud.taluk" required>
+                    </mat-form-field>
+                    <mat-form-field class="col-sm-5 col-md-5 col-xl-5 col-lg-5">
+                        <mat-label>State</mat-label>
+                        <input matInput [(ngModel)]="stud.state" required>
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-6 col-md-6 col-xl-6 col-lg-6 inline-blk">
+                    <mat-form-field class="col-sm-5 col-md-5 col-xl-5 col-lg-5">
+                        <mat-label>Pincode</mat-label>
+                        <input matInput [(ngModel)]="stud.pincode" required>
+                    </mat-form-field>
+                    <mat-form-field class="col-sm-5 col-md-5 col-xl-5 col-lg-5">
+                        <mat-label>Country</mat-label>
+                        <input matInput [(ngModel)]="stud.country" required>
+                    </mat-form-field>
+                </div>
+                <!-- <div class="col-sm-6 col-md-6 inline-blk">
+                <mat-form-field class="col-sm-5 col-md-5">
+                    <mat-label>Father number</mat-label>
+                    <input matInput required>
+                </mat-form-field>
+                <mat-form-field class="col-sm-5 col-md-5">
+                    <mat-label>Mother number</mat-label>
+                    <input matInput required>
+                </mat-form-field>
+            </div> -->
+                <div class="col-sm-6 col-md-6 inline-blk"></div>
+                <div class="col-sm-12 col-md-12 inline-blk"
+                    style="margin-bottom: 5px; margin-top: 15px; padding-left: 2%;">
+                    <mat-checkbox [(ngModel)]="stud.isPrmntAdrs">Same as permanent address</mat-checkbox>
+                </div>
+                <div class="col-sm-12 col-md-12 inline-blk">
+                    <mat-form-field class="col-sm-11 col-md-11">
+                        <mat-label>Permanent address</mat-label>
+                        <textarea matInput [disabled]="stud.isPrmntAdrs" [(ngModel)]="stud.prmntAdrs"></textarea>
+                    </mat-form-field>
+                </div>
+            </mat-card-content>
+        </mat-card>
+
+        <mat-card class="row pad-zero marg-tp-head">
+            <mat-card-title class="col-sm-12 col-md-12 card-head" style="text-align: center;">
+                Declaration
+            </mat-card-title>
+            <mat-card-content class="col-sm-12 col-md-12 card-body">
+                <p class="col-sm-12 col-md-12">I
+                    <mat-form-field>
+                        <mat-label>Student Name</mat-label>
+                        <input matInput required>
+                    </mat-form-field>
+                    <mat-form-field style="margin-left: 20px;">
+                        <mat-label>Son/Daughter</mat-label>
+                        <mat-select>
+                            <mat-option value="Son">Son</mat-option>
+                            <mat-option value="Daughter">Daughter</mat-option>
+                        </mat-select>
+                    </mat-form-field>OF
+                    <mat-form-field>
+                        <mat-label>Parent/Guardian Name</mat-label>
+                        <input matInput required>
+                    </mat-form-field>
+                    IF SELECTED FOR ADMISSION, PROMISE TO ABIDE BY THE RULES AND REGULATIONS OF THE COLLEGE. ALL
+                    THE
+                    PARTICULARS STATED IN
+                    THIS APPLICATION ARE TRUE TO THE BEST OF MY KNOWLEDGE AND BELIEF.
+                </p><br>
+                <div class="col-sm-12 col-md-12">
+                    <mat-checkbox class="col-sm-1 col-md-1 offset-sm-11 offset-md-11" [(ngModel)]="stud.declarAgree">
+                        <b>I agree</b></mat-checkbox>
+                </div>
+            </mat-card-content>
+        </mat-card>
+
+        <mat-card class="row pad-zero marg-tp-head">
+            <mat-card-title class="col-sm-12 col-md-12 card-head" style="text-align: center;">
+                Undertaking By Parents
+            </mat-card-title>
+            <mat-card-content class="col-sm-12 col-md-12 card-body">
+                <p class="col-sm-12 col-md-12">IN THE EVENT OF THE ABOVE APPLICANT, MY
+                    <mat-form-field>
+                        <mat-label><B>SON/DAUGHTER</B></mat-label>
+                        <mat-select>
+                            <mat-option value="Son">SON</mat-option>
+                            <mat-option value="Daughter">DAUGHTER</mat-option>
+                        </mat-select>
+                    </mat-form-field>BEING ADMITTED
+                    TO THE COLLEGE, I UNDERTAKE TO PAY REGULARLY ALL <mat-form-field>
+                        <mat-label><B>HIS/HER</B></mat-label>
+                        <mat-select>
+                            <mat-option value="His">HIS</mat-option>
+                            <mat-option value="Her">HER</mat-option>
+                        </mat-select>
+                    </mat-form-field> DUES TO THE COLLEGE TILL THE COMPLETION OF
+                    <mat-form-field>
+                        <mat-label><B>HIS/HER</B></mat-label>
+                        <mat-select>
+                            <mat-option value="His">HIS</mat-option>
+                            <mat-option value="Her">HER</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    COURSE OF STUDIES. I ALSO UNDERTAKE TO BE RESPONSIBLE FOR
+                    <mat-form-field>
+                        <mat-label><B>HIS/HER</B></mat-label>
+                        <mat-select>
+                            <mat-option value="His">HIS</mat-option>
+                            <mat-option value="Her">HER</mat-option>
+                        </mat-select>
+                    </mat-form-field>CONDUCT, PROGRESS IN STUDIES AND ATTENDANCE.</p><br>
+                <div class="col-sm-12 col-md-12">
+                    <mat-checkbox class="col-sm-1 col-md-1 offset-sm-11 offset-md-11" [(ngModel)]="stud.parentsAgree">
+                        <b>I agree</b></mat-checkbox>
+                </div>
+            </mat-card-content>
+        </mat-card>
+
+        <div class="col-sm-12 col-md-12 " style="color: #3F51B5; padding-top: 10px;">
+            <!-- <div class="col-sm-8 col-md-8 inline-blk" style="color: #3F51B5;"> -->
+            <b>NOTE:</b> <br>
+            1. SUBMISSION OF THIS FORMAT WILL NOT GUARANTEE ADMISSION INTO LOYOLA-ICAM <br>
+            2. CLICK SAVE TO MAKE CHANGES LATER <br>
+            3. CLICK FINALISE TO SUBMIT AND FURTHER WILL NOT BE ALLOWED <br>
+            <!-- </div> -->
+            <!-- <div class="col-sm-4 col-md-4 inline-blk" style="text-align: right;">
+                <button mat-raised-button (click)="submitForm()"
+                    style=" margin-right: 10%; background-color: #3F51B5; color: white;">Apply</button>
+            </div> -->
+        </div>
+    </div>
+</div>
+
+<!-- <div class="row" style="background-color: #D3D3D3;">
+    <div class="col-md-12 text-right">
+        <div>
+            CodingSpaceIndia production
+        </div>
+    </div>
+</div> -->

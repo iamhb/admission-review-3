@@ -1,0 +1,14 @@
+
+.pad-zero{
+    padding: 0px;
+}
+.marg-tp-head{
+    margin-top: 2%;
+}
+.card-head{
+    padding: 10px; 
+    background-color: #efefef;
+}
+.card-body{
+    padding: 20px 0px;
+}
