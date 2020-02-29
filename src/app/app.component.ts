@@ -8,7 +8,7 @@ import { AuthService } from './components/auth.service';
 })
 export class AppComponent {
     title = 'onlyAdmission';
-    constructor(private auth: AuthService) { }
+    constructor(public auth: AuthService) { }
     changeOfRoutes() {
 
     }

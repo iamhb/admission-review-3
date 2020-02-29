@@ -17,6 +17,7 @@ import { AuthService } from './components/auth.service';
 import { AuthGuard } from './components/auth.guard';
 import { TokenInterceptorService } from './components/token-interceptor.service';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
+import { PopupComponent } from './components/popup/popup.component';
 
 @NgModule({
     declarations: [
@@ -25,7 +26,8 @@ import { LocationStrategy, HashLocationStrategy } from '@angular/common';
         RegisterComponent,
         HeaderComponent,
         FooterComponent,
-        AdmissionComponent
+        AdmissionComponent,
+        PopupComponent
     ],
     imports: [
         BrowserModule,
@@ -44,6 +46,9 @@ import { LocationStrategy, HashLocationStrategy } from '@angular/common';
             provide: LocationStrategy,
             useClass: HashLocationStrategy
         }],
-    bootstrap: [AppComponent]
+    bootstrap: [AppComponent],
+    entryComponents: [
+        PopupComponent
+    ]
 })
 export class AppModule { }

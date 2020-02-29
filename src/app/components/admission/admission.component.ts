@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../auth.service';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { PopupComponent } from '../popup/popup.component';
+import { Observable, Subscriber } from 'rxjs';
 
 @Component({
     selector: 'app-admission',
@@ -10,12 +13,11 @@ import { AuthService } from '../auth.service';
 })
 export class AdmissionComponent implements OnInit {
 
-    constructor(public http: HttpClient, private router: Router, private activatedRoute: ActivatedRoute, private authService: AuthService) { }
+    constructor(public dialog: MatDialog, public http: HttpClient, public router: Router, public activatedRoute: ActivatedRoute, public authService: AuthService) { }
 
-    private finalised: boolean = false;
-
+    public finalised: boolean = false;
+    public test$;
     ngOnInit() {
-        // this.getAllAdmission();
         console.log("---on init-");
         // route poc
         // this.activatedRoute.paramMap.subscribe(params => {
@@ -30,7 +32,6 @@ export class AdmissionComponent implements OnInit {
     stud: any = {
         twelve: {},
         lateral: {
-            //stud.lateral.sem1
             sem1: {},
             sem2: {},
             sem3: {},
@@ -47,12 +48,21 @@ export class AdmissionComponent implements OnInit {
     getStudDetails() {
         this.authService.getStudentAdmission().subscribe(
             res => {
-                console.log(res)
+                console.log("res")
                 if (res.docs != null) {
                     this.stud = res.docs
                     if (this.stud.status == "F") {
                         this.finalised = true;
                     }
+                }
+                // this.submitForm(null);
+            }, err => {
+                console.log("err")
+                console.log(err)
+                if (err.error && err.error.code && err.error.code === "TokenExpiredError") {
+                    alert("Session Expired");
+                    this.authService.logOutUser();
+                    this.logOut();
                 }
             }
         )
@@ -64,11 +74,26 @@ export class AdmissionComponent implements OnInit {
             this.stud.twelve = {}
         }
     }
+
+    showAlertMsg(header: string, alertMessage: string, warning: boolean, confirmation: boolean) {
+        let dialogRef = this.dialog.open(PopupComponent, {
+            width: "42%",
+            disableClose: true,
+            height: "28%",
+            data: {
+                headerMsg: header,
+                message: alertMessage,
+                isConfirmation: confirmation,
+                isWarning: warning,
+            }
+        });
+        return dialogRef.afterClosed();
+    }
+
     // save and finalise button click
     submitForm(status: string): void {
-        // console.log(dob)
-        console.log("submit button clicked....", status);
 
+        console.log("submit button clicked....", status);
         if (!this.stud.isPrmntAdrs) {
             this.stud.prmntAdrs = undefined;
         }
@@ -82,16 +107,19 @@ export class AdmissionComponent implements OnInit {
             console.log(this.stud);
             this.authService.doAdmission(this.stud).subscribe(
                 res => {
+                    this.showAlertMsg("Success", "Saved Successfully", true, false).subscribe();
                     console.log(res)
                     this.stud = res;
                     this.getStudDetails();
                     this.setUndefined();
                 }, err => {
+                    this.showAlertMsg("Error", "Server Error", true, false).subscribe();
                     console.log(err)
                 }
             )
         } else {
-            console.log("finalisde cant save again");
+            this.showAlertMsg("Warning", "Admission form finalised already. Can't save.", true, false).subscribe();
+            // console.log("finalisde cant save again");
         }
     }
 

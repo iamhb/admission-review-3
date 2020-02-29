@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
     providedIn: 'root'
 })
 export class AuthService {
+
     public ipUrl = "http://localhost:3000/";
 
     public registerUrl = this.ipUrl + "student/register";
@@ -15,7 +16,7 @@ export class AuthService {
     public getStudentAdmissionUrl = this.ipUrl + "admission/studentAdmission";
 
 
-    constructor(private http: HttpClient) { }
+    constructor(public http: HttpClient) { }
 
     registerStudent(student) {
         return this.http.post<any>(this.registerUrl, student);
