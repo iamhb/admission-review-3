@@ -1,24 +1,18 @@
-<!-- <mat-toolbar color="primary" class="col-sm-12 col-md-12 col-xl-12 col-lg-12 navbar container-fluid">
-    <div class="col-sm-6 col-md-6 col-xl-6 col-lg-6">
-        LICET
-    </div>
-    <div class="col-sm-6 col-md-6 col-xl-6 col-lg-6" style="text-align: right;">
-        <button mat-stroked-button style="color: black; background-color: white;">Save</button>
-        <button mat-stroked-button style="color: black; background-color: white;">Finalise</button>
-    </div>
-</mat-toolbar> -->
 <div>
-    <!-- <p>header works!</p> -->
     <mat-toolbar color="primary" class="col-sm-12 col-md-12 col-xl-12 col-lg-12 navbar container-fluid">
         <span class="col-sm-3 col-md-3 col-xl-3 col-lg-3">
             LICET
         </span>
         <div class="col-sm-4 col-md-4 col-xl-4 col-lg-4" style="text-align: right;">
-            <span class="col-sm-6 col-md-6 col-xl-6 col-lg-6" *ngIf="!finalised" style="text-align: right;">
-                <button mat-stroked-button style="color: black;  background-color: white;"
-                    (click)="submitForm()">Save</button>
+            <span class="col-sm-4 col-md-4 col-xl-4 col-lg-4" *ngIf="!finalised" style="text-align: right;">
+                <button mat-stroked-button (click)="navBarLogOut()"
+                    style="color: black; background-color: white;">Logout</button>
             </span>
-            <span class="col-sm-6 col-md-6 col-xl-6 col-lg-6" *ngIf="!finalised" style="text-align: right;">
+            <span class="col-sm-4 col-md-4 col-xl-4 col-lg-4" *ngIf="!finalised" style="text-align: right;">
+                <button mat-stroked-button style="color: black;  background-color: white;"
+                    (click)="submitForm(null)">Save</button>
+            </span>
+            <span class="col-sm-4 col-md-4 col-xl-4 col-lg-4" *ngIf="!finalised" style="text-align: right;">
                 <button mat-stroked-button (click)="submitForm('F')"
                     style="color: black; background-color: white;">Finalise</button>
             </span>
@@ -29,7 +23,61 @@
     </mat-toolbar>
 </div>
 
-<div style="margin-top: 1%" *ngIf="stud && stud.admissionNumber">
+<!-- file very first poc -->
+<!-- <div style="margin-top: 1%">
+    File upload
+    <div>
+        <input type="file" name="fileUpload" id="fileUpload" ng2FileSelect [uploader]="uploader">
+    </div>
+    <div>
+        <div class="row" *ngFor="let item of uploader.queue">
+            <div class="col-sm-4">{{item.file.name}} </div>
+            <div class="col-sm-4">
+                <div class="progress">
+                    <div class="progress-bar bg-success" [ngStyle]="{'width': item.progress+ '%'}"></div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <button type="button" class="btn btn-dark" (click)="item.upload()">Upload</button>
+                <button type="button" class="btn btn-danger" (click)="item.remove()">Cancel</button>
+                <button type="button" class="btn btn-primary" (click)="download()">Download</button>
+            </div>
+        </div>
+    </div>
+</div> -->
+<div style="margin-top: 1%">
+    <div class="container-fluid" style="padding: 0px 35px;">
+        <div class="row">
+            <div class="col-sm-4 col-xl-4 col-lg-4 col-md-4">
+                <div *ngIf="!imageSrc">
+                    <span>
+                        Select Photo
+                    </span>
+                    <input type="file" name="fileUpload" id="fileUpload" ng2FileSelect
+                        (change)="selectedFileOnChanged($event)" [uploader]="uploader">
+                </div>
+            </div>
+            <div class="col-sm-4 col-xl-4 col-lg-4 col-md-4">
+                <div *ngIf="!imageSrc">
+                    <div class="row" *ngFor="let item of uploader.queue">
+                        <div class="col-sm-4"></div>
+                        <div class="col-sm-4">
+                            <button type="button" class="btn btn-dark" (click)="item.upload()">Upload</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4 col-xl-4 col-lg-4 col-md-4" *ngIf="imageSrc">
+                <div style="float: right;">
+                    <img src={{imageSrc}} height="100" width="100" alt="Student Profile Photo">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- admission number -->
+<div style="margin-top: 1%;" *ngIf="stud && stud.admissionNumber">
     <div class="container-fluid" style="padding: 0px 35px">
         <mat-card class="row">
             <mat-card-content class="col-sm-12 col-md-12 col-xl-12 col-lg-12" style="padding: 10px 0px;">
@@ -421,6 +469,7 @@
                 </div>
             </mat-card-content>
         </mat-card>
+
         <!-- Lateral Entry end -->
 
         <mat-card class="row pad-zero marg-tp-head">

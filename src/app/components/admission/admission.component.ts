@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../auth.service';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { PopupComponent } from '../popup/popup.component';
-import { Observable, Subscriber } from 'rxjs';
+import { FileSelectDirective, FileUploader } from 'ng2-file-upload';
+import { saveAs } from 'file-saver';
 
 @Component({
     selector: 'app-admission',
@@ -13,23 +13,33 @@ import { Observable, Subscriber } from 'rxjs';
 })
 export class AdmissionComponent implements OnInit {
 
-    constructor(public dialog: MatDialog, public http: HttpClient, public router: Router, public activatedRoute: ActivatedRoute, public authService: AuthService) { }
+    constructor(public dialog: MatDialog, public http: HttpClient, public router: Router, public activatedRoute: ActivatedRoute, public authService: AuthService) {
+        this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
+            response = JSON.parse(response);
+            if (response.error && response.error.code && response.error.code == "LIMIT_FILE_SIZE") {
+                alert("Maximum file size is 5 MB")
+            }
+            this.attachmentList.push(response);
+            let data = response;
+            data.attachmentName = "PP";
+            this.authService.setFileForStudent(data).subscribe((res: any) => {
+                this.imageSrc = this.authService.showPhoto + res.fileName;
+                this.stud.fileNames = {};
+                this.stud.fileNames.profilePhoto = res.fileName;
+            });
+        }
+    }
 
+    uploader: FileUploader = new FileUploader({ url: this.authService.fileUploadUrl, authToken: `Bearer ${this.authService.getToken()}` });
+    attachmentList: any = [];
     public finalised: boolean = false;
-    public test$;
+    public imageSrc: string;
     ngOnInit() {
-        console.log("---on init-");
-        // route poc
-        // this.activatedRoute.paramMap.subscribe(params => {
-        //     this.value = params.get("animal");
-        //     console.log("-----durrrr");
-        //     console.log(this.value);
-        // });
         this.getStudDetails();
     }
 
-    value: any = undefined;
     stud: any = {
+        fileNames: {},
         twelve: {},
         lateral: {
             sem1: {},
@@ -42,20 +52,29 @@ export class AdmissionComponent implements OnInit {
     };
     gender: string;
     fname: string;
-    test = "test"
     isPrmntAdrs: Boolean = false;
+
+
+    selectedFileOnChanged(event) {
+        // console.log("selectedFileOnChanged")
+        // console.log(event)
+    }
 
     getStudDetails() {
         this.authService.getStudentAdmission().subscribe(
             res => {
                 console.log("res")
+                console.log(res)
                 if (res.docs != null) {
                     this.stud = res.docs
+
+                    if (this.stud.fileNames && this.stud.fileNames.profilePhoto) {
+                        this.imageSrc = this.authService.showPhoto + this.stud.fileNames.profilePhoto;
+                    }
                     if (this.stud.status == "F") {
                         this.finalised = true;
                     }
                 }
-                // this.submitForm(null);
             }, err => {
                 console.log("err")
                 console.log(err)
@@ -75,20 +94,21 @@ export class AdmissionComponent implements OnInit {
         }
     }
 
-    showAlertMsg(header: string, alertMessage: string, warning: boolean, confirmation: boolean) {
-        let dialogRef = this.dialog.open(PopupComponent, {
-            width: "42%",
-            disableClose: true,
-            height: "28%",
-            data: {
-                headerMsg: header,
-                message: alertMessage,
-                isConfirmation: confirmation,
-                isWarning: warning,
-            }
-        });
-        return dialogRef.afterClosed();
-    }
+
+    // showAlertMsg(header: string, alertMessage: string, warning: boolean, confirmation: boolean) {
+    //     let dialogRef = this.dialog.open(PopupComponent, {
+    //         width: "42%",
+    //         disableClose: true,
+    //         height: "28%",
+    //         data: {
+    //             headerMsg: header,
+    //             message: alertMessage,
+    //             isConfirmation: confirmation,
+    //             isWarning: warning,
+    //         }
+    //     });
+    //     return dialogRef.afterClosed();
+    // }
 
     // save and finalise button click
     submitForm(status: string): void {
@@ -107,18 +127,21 @@ export class AdmissionComponent implements OnInit {
             console.log(this.stud);
             this.authService.doAdmission(this.stud).subscribe(
                 res => {
-                    this.showAlertMsg("Success", "Saved Successfully", true, false).subscribe();
+                    alert("Saved Successfully")
+                    // this.showAlertMsg("Success", "Saved Successfully", true, false).subscribe();
                     console.log(res)
                     this.stud = res;
                     this.getStudDetails();
                     this.setUndefined();
                 }, err => {
-                    this.showAlertMsg("Error", "Server Error", true, false).subscribe();
+                    alert("Server Error");
+                    // this.showAlertMsg("Error", "Server Error", true, false).subscribe();
                     console.log(err)
                 }
             )
         } else {
-            this.showAlertMsg("Warning", "Admission form finalised already. Can't save.", true, false).subscribe();
+            alert("Admission form finalised already. Can't save.")
+            // this.showAlertMsg("Warning", "Admission form finalised already. Can't save.", true, false).subscribe();
             // console.log("finalisde cant save again");
         }
     }
@@ -128,6 +151,12 @@ export class AdmissionComponent implements OnInit {
         this.router.navigate(['login']);
     }
 
+    navBarLogOut(): void {
+        let confirmBool = confirm("Are you sure ? You want to logout");
+        if (confirmBool) {
+            this.logOut();
+        }
+    }
     focusFunction() {
         console.log("focusing...")
         console.log("stud.twelve");
@@ -159,5 +188,19 @@ export class AdmissionComponent implements OnInit {
     getDobValue(dob: any): void {
         console.log(dob)
         this.stud.dob = dob;
+    }
+
+    download() {
+        console.log("download clicked...")
+        this.http.post("http://localhost:3000/file/download", {}, {
+            responseType: 'blob',
+            headers: new HttpHeaders().append('Content-Type', 'application/json')
+        }).subscribe(res => {
+
+            console.log(res)
+            saveAs(res, "filename")
+        }, err => {
+            console.log(err)
+        });
     }
 }

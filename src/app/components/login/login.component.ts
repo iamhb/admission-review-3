@@ -11,7 +11,7 @@ import { AuthService } from '../auth.service';
 export class LoginComponent implements OnInit {
 
     constructor(private router: Router, private authService: AuthService) { }
-    private logUserData: any = {};
+    public logUserData: any = {};
     ngOnInit() {
         this.authService.logOutUser();
         console.log("login component");

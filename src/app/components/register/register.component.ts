@@ -9,9 +9,9 @@ import { Router } from '@angular/router';
 })
 export class RegisterComponent implements OnInit {
 
-    constructor(private authService: AuthService, private router: Router) { }
-    private regUserData: any = {};
-    private otpVerified: boolean;
+    constructor(public authService: AuthService, public router: Router) { }
+    public regUserData: any = {};
+    public otpVerified: boolean;
     ngOnInit() {
         this.authService.logOutUser();
     }

@@ -18,6 +18,7 @@ import { AuthGuard } from './components/auth.guard';
 import { TokenInterceptorService } from './components/token-interceptor.service';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { PopupComponent } from './components/popup/popup.component';
+import { FileUploadModule } from "ng2-file-upload";
 
 @NgModule({
     declarations: [
@@ -36,7 +37,8 @@ import { PopupComponent } from './components/popup/popup.component';
         MaterialModule,
         FormsModule,
         HttpClientModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        FileUploadModule
     ],
     providers: [AuthService, AuthGuard, {
         provide: HTTP_INTERCEPTORS,

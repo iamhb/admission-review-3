@@ -7,6 +7,9 @@ import { HttpClient } from '@angular/common/http';
 export class AuthService {
 
     public ipUrl = "http://localhost:3000/";
+    // public ipUrl = "http://3.17.4.158:3000/";
+    public fileUploadUrl = this.ipUrl + "file/upload"
+    public showPhoto: string = this.ipUrl + "uploads/";
 
     public registerUrl = this.ipUrl + "student/register";
     public loginUrl = this.ipUrl + "student/login";
@@ -14,6 +17,8 @@ export class AuthService {
 
     public doAdmissionUrl = this.ipUrl + "admission/saveAdmission"
     public getStudentAdmissionUrl = this.ipUrl + "admission/studentAdmission";
+
+    public setFileForStudentUrl = this.ipUrl + "file/setFileForStudent";
 
 
     constructor(public http: HttpClient) { }
@@ -28,6 +33,10 @@ export class AuthService {
 
     doAdmission(studentAdmission) {
         return this.http.post<any>(this.doAdmissionUrl, studentAdmission);
+    }
+
+    setFileForStudent(data) {
+        return this.http.post<any>(this.setFileForStudentUrl, data);
     }
 
     getStudentAdmission() {
