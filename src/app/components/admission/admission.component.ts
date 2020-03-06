@@ -14,6 +14,7 @@ import { saveAs } from 'file-saver';
 export class AdmissionComponent implements OnInit {
 
     constructor(public dialog: MatDialog, public http: HttpClient, public router: Router, public activatedRoute: ActivatedRoute, public authService: AuthService) {
+        // profile photo
         this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
             response = JSON.parse(response);
             if (response.error && response.error.code && response.error.code == "LIMIT_FILE_SIZE") {
@@ -28,12 +29,35 @@ export class AdmissionComponent implements OnInit {
                 this.stud.fileNames.profilePhoto = res.fileName;
             });
         }
+        // pdf upload
+        this.uploaderPdf.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
+            console.log("pdf api")
+            console.log(response)
+            response = JSON.parse(response);
+            if (response.error && response.error.code && response.error.code == "LIMIT_FILE_SIZE") {
+                alert("Maximum file size is 5 MB")
+            }
+            this.attachmentList.push(response);
+            let data = response;
+            data.attachmentName = "PDFfile";
+            this.authService.setFileForStudent(data).subscribe((res: any) => {
+                this.stud.fileNames = this.stud.fileNames ? this.stud.fileNames : {};
+                this.stud.fileNames.markSheet = res.fileName;
+                console.log(this.stud.fileNames)
+                this.pdfSrc = this.authService.showPhoto + res.fileName;
+            });
+        }
     }
 
     uploader: FileUploader = new FileUploader({ url: this.authService.fileUploadUrl, authToken: `Bearer ${this.authService.getToken()}` });
+
+    uploaderPdf: FileUploader = new FileUploader({ url: this.authService.fileUploadUrl, authToken: `Bearer ${this.authService.getToken()}` });
+
     attachmentList: any = [];
     public finalised: boolean = false;
     public imageSrc: string;
+    public pdfSrc: string;
+
     ngOnInit() {
         this.getStudDetails();
     }
@@ -58,6 +82,7 @@ export class AdmissionComponent implements OnInit {
     selectedFileOnChanged(event) {
         // console.log("selectedFileOnChanged")
         // console.log(event)
+        // console.log(this.uploaderPdf)
     }
 
     getStudDetails() {
@@ -71,6 +96,11 @@ export class AdmissionComponent implements OnInit {
                     if (this.stud.fileNames && this.stud.fileNames.profilePhoto) {
                         this.imageSrc = this.authService.showPhoto + this.stud.fileNames.profilePhoto;
                     }
+
+                    if (this.stud.fileNames && this.stud.fileNames.markSheet) {
+                        this.pdfSrc = this.stud.fileNames.markSheet;
+                    }
+
                     if (this.stud.status == "F") {
                         this.finalised = true;
                     }
@@ -129,14 +159,14 @@ export class AdmissionComponent implements OnInit {
                 res => {
                     alert("Saved Successfully")
                     // this.showAlertMsg("Success", "Saved Successfully", true, false).subscribe();
-                    console.log(res)
+                    // console.log(res)
                     this.stud = res;
                     this.getStudDetails();
                     this.setUndefined();
                 }, err => {
                     alert("Server Error");
                     // this.showAlertMsg("Error", "Server Error", true, false).subscribe();
-                    console.log(err)
+                    // console.log(err)
                 }
             )
         } else {
@@ -190,15 +220,14 @@ export class AdmissionComponent implements OnInit {
         this.stud.dob = dob;
     }
 
-    download() {
-        console.log("download clicked...")
-        this.http.post("http://localhost:3000/file/download", {}, {
+    downloadMarkSheet() {
+        // console.log("download clicked...")
+        this.http.post(this.authService.downloadPdf, { "pdf": this.pdfSrc }, {
             responseType: 'blob',
             headers: new HttpHeaders().append('Content-Type', 'application/json')
         }).subscribe(res => {
-
-            console.log(res)
-            saveAs(res, "filename")
+            // console.log(res)
+            saveAs(res, this.pdfSrc)
         }, err => {
             console.log(err)
         });

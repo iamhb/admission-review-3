@@ -119,9 +119,11 @@
                 </mat-form-field>
             </mat-card-content>
         </mat-card>
+        <!-- 12 th or kateral entry switch -->
         <div style="padding-top: 1%;">
             <mat-slide-toggle [(ngModel)]="stud.isLateralEntry">Lateral Entry</mat-slide-toggle>
         </div>
+
         <!-- 12th student start -->
         <mat-card class="row pad-zero" style="margin-top: 1%;"
             *ngIf="!stud.isLateralEntry || stud.isLateralEntry == undefined">
@@ -469,8 +471,55 @@
                 </div>
             </mat-card-content>
         </mat-card>
-
         <!-- Lateral Entry end -->
+
+        <!-- pdf upload start-->
+        <mat-card class="row pad-zero marg-tp-head">
+            <mat-card-title class="col-sm-12 col-md-12 col-xl-12 col-lg-12 card-head">
+                Marksheet Upload
+            </mat-card-title>
+            <mat-card-content class="col-sm-12 col-md-12 col-xl-12 col-lg-12 card-body">
+                <div style="padding-left: 2%;">
+                    <span *ngIf="!this.pdfSrc">
+                        Combine all your marksheet (from 10th to now) as one PDF file and upload
+                        <!-- <br> -->
+                    </span>
+
+                    <div class="row">
+                        <div class="col-sm-4 col-xl-4 col-lg-4 col-md-4" *ngIf="!this.pdfSrc">
+                            <div>
+                                <span>
+                                    Select PDF
+                                </span>
+                                <input type="file" name="fileUpload" id="fileUpload" ng2FileSelect
+                                    (change)="selectedFileOnChanged($event)" [uploader]="uploaderPdf">
+                            </div>
+                        </div>
+                        <div class="col-sm-4 col-xl-4 col-lg-4 col-md-4" *ngIf="!this.pdfSrc">
+                            <div>
+                                <div class="row" *ngFor="let item of uploaderPdf.queue">
+                                    <div class="col-sm-4"></div>
+                                    <div class="col-sm-4">
+                                        <button type="button" class="mat-stroked-button"
+                                            (click)="item.upload()">Upload</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-xl-6 col-lg-6 col-md-6" *ngIf="this.pdfSrc">
+                            <div>
+                                <span>
+                                    Combine all your marksheet (from 10th to now) as one PDF file and upload
+                                </span>
+                                <button type="button" class="mat-stroked-button"
+                                    (click)="downloadMarkSheet()">Download</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+        <!-- pdf upload end-->
 
         <mat-card class="row pad-zero marg-tp-head">
             <mat-card-title class="col-sm-12 col-md-12 col-xl-12 col-lg-12 card-head">

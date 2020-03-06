@@ -8,14 +8,15 @@ export class AuthService {
 
     public ipUrl = "http://localhost:3000/";
     // public ipUrl = "http://3.17.4.158:3000/";
-    public fileUploadUrl = this.ipUrl + "file/upload"
+    public fileUploadUrl = this.ipUrl + "file/upload";
     public showPhoto: string = this.ipUrl + "uploads/";
+    public downloadPdf: string = this.ipUrl + "file/download";
 
     public registerUrl = this.ipUrl + "student/register";
     public loginUrl = this.ipUrl + "student/login";
     public otpUrl = this.ipUrl + "student/genOtp";
 
-    public doAdmissionUrl = this.ipUrl + "admission/saveAdmission"
+    public doAdmissionUrl = this.ipUrl + "admission/saveAdmission";
     public getStudentAdmissionUrl = this.ipUrl + "admission/studentAdmission";
 
     public setFileForStudentUrl = this.ipUrl + "file/setFileForStudent";
