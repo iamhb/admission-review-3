@@ -19,6 +19,8 @@ import { TokenInterceptorService } from './components/token-interceptor.service'
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { PopupComponent } from './components/popup/popup.component';
 import { FileUploadModule } from "ng2-file-upload";
+import { PdfViewComponent } from './components/pdf-view/pdf-view.component';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
 
 @NgModule({
     declarations: [
@@ -28,7 +30,8 @@ import { FileUploadModule } from "ng2-file-upload";
         HeaderComponent,
         FooterComponent,
         AdmissionComponent,
-        PopupComponent
+        PopupComponent,
+        PdfViewComponent,
     ],
     imports: [
         BrowserModule,
@@ -38,7 +41,8 @@ import { FileUploadModule } from "ng2-file-upload";
         FormsModule,
         HttpClientModule,
         ReactiveFormsModule,
-        FileUploadModule
+        FileUploadModule,
+        PdfViewerModule
     ],
     providers: [AuthService, AuthGuard, {
         provide: HTTP_INTERCEPTORS,
@@ -50,7 +54,7 @@ import { FileUploadModule } from "ng2-file-upload";
         }],
     bootstrap: [AppComponent],
     entryComponents: [
-        PopupComponent
+        PopupComponent,
     ]
 })
 export class AppModule { }

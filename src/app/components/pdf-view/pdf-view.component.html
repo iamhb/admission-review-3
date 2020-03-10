@@ -1,0 +1,23 @@
+<div>
+    <mat-toolbar color="primary" class="col-sm-12 col-md-12 col-xl-12 col-lg-12 navbar container-fluid">
+        <span class="col-sm-3 col-md-3 col-xl-3 col-lg-3">
+            LICET
+        </span>
+        <div class="col-sm-4 col-md-4 col-xl-4 col-lg-4" style="text-align: right;">
+            <span class="col-sm-4 col-md-4 col-xl-4 col-lg-4" style="text-align: right;">
+                <button mat-stroked-button (click)="downloadPdf()"
+                    style="color: black; background-color: white;">Download</button>
+            </span>
+            <span class="col-sm-4 col-md-4 col-xl-4 col-lg-4" style="text-align: right;">
+                <button mat-stroked-button style="color: black; background-color: white;"
+                    (click)="goToAdmission()">Apply</button>
+            </span>
+        </div>
+    </mat-toolbar>
+</div>
+
+<!-- place header -->
+<div class="row">
+    <pdf-viewer [src]="pdfSrc" [render-text]="true" [page]="page" [show-all]="true" style="display: block;">
+    </pdf-viewer>
+</div>

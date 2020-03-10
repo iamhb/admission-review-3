@@ -4,6 +4,7 @@ import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { AdmissionComponent } from './components/admission/admission.component';
 import { AuthGuard } from './components/auth.guard';
+import { PdfViewComponent } from './components/pdf-view/pdf-view.component';
 
 const routes: Routes = [
     {
@@ -14,14 +15,14 @@ const routes: Routes = [
         path: 'register',
         component: RegisterComponent
     },
-    {
-        path: 'admission/:animal',
-        component: AdmissionComponent,
-        canActivate: [AuthGuard]
-    },
+    // {
+    //     path: 'admission/:animal',
+    //     component: AdmissionComponent,
+    //     canActivate: [AuthGuard]
+    // },
     {
         path: '',
-        component: AdmissionComponent,
+        component: PdfViewComponent,
         canActivate: [AuthGuard]
     },
     {
@@ -29,6 +30,11 @@ const routes: Routes = [
         component: AdmissionComponent,
         canActivate: [AuthGuard]
     },
+    {
+        path: 'pdf',
+        component: PdfViewComponent,
+        canActivate: [AuthGuard]
+    }
 ];
 
 @NgModule({

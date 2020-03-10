@@ -23,7 +23,8 @@ export class RegisterComponent implements OnInit {
                 // if(res.code == )
                 if (res.token) {
                     localStorage.setItem('token', res.token)
-                    this.router.navigate(['admission']);
+                    this.router.navigate(['pdf']);
+                    // this.router.navigate(['admission']);
                 }
             }, err => {
                 console.log(err)

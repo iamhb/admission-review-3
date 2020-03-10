@@ -126,22 +126,6 @@ export class AdmissionComponent implements OnInit {
         }
     }
 
-
-    // showAlertMsg(header: string, alertMessage: string, warning: boolean, confirmation: boolean) {
-    //     let dialogRef = this.dialog.open(PopupComponent, {
-    //         width: "42%",
-    //         disableClose: true,
-    //         height: "28%",
-    //         data: {
-    //             headerMsg: header,
-    //             message: alertMessage,
-    //             isConfirmation: confirmation,
-    //             isWarning: warning,
-    //         }
-    //     });
-    //     return dialogRef.afterClosed();
-    // }
-
     // save and finalise button click
     submitForm(status: string): void {
 
@@ -179,8 +163,6 @@ export class AdmissionComponent implements OnInit {
             )
         } else {
             alert("Admission form finalised already. Can't save.")
-            // this.showAlertMsg("Warning", "Admission form finalised already. Can't save.", true, false).subscribe();
-            // console.log("finalisde cant save again");
         }
     }
 

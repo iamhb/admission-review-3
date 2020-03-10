@@ -6,8 +6,8 @@ import { HttpClient } from '@angular/common/http';
 })
 export class AuthService {
 
-    // public ipUrl = "http://localhost:3000/";
-    public ipUrl = "http://3.17.4.158:3000/";
+    public ipUrl = "http://localhost:3000/";
+    // public ipUrl = "http://3.17.4.158:3000/";
     public fileUploadUrl = this.ipUrl + "file/upload";
     public showPhoto: string = this.ipUrl + "uploads/";
     public downloadPdf: string = this.ipUrl + "file/download";
