@@ -27,6 +27,7 @@ export class AdmissionComponent implements OnInit {
                 this.imageSrc = this.authService.showPhoto + res.fileName;
                 this.stud.fileNames = {};
                 this.stud.fileNames.profilePhoto = res.fileName;
+                alert("Photo uploaded.Click save to save your changes")
             });
         }
         // pdf upload
@@ -45,6 +46,7 @@ export class AdmissionComponent implements OnInit {
                 this.stud.fileNames.markSheet = res.fileName;
                 console.log(this.stud.fileNames)
                 this.pdfSrc = this.authService.showPhoto + res.fileName;
+                alert("PDF uploaded.Click save to save your changes")
             });
         }
     }

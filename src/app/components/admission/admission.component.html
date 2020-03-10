@@ -62,7 +62,7 @@
                     <div class="row" *ngFor="let item of uploader.queue">
                         <div class="col-sm-4"></div>
                         <div class="col-sm-4">
-                            <button type="button" class="btn btn-dark" (click)="item.upload()">Upload</button>
+                            <button type="button" class="mat-stroked-button" (click)="item.upload()">Upload</button>
                         </div>
                     </div>
                 </div>
@@ -509,7 +509,7 @@
                         <div class="col-sm-6 col-xl-6 col-lg-6 col-md-6" *ngIf="this.pdfSrc">
                             <div>
                                 <span>
-                                    Combine all your marksheet (from 10th to now) as one PDF file and upload
+                                    Marksheet uploaded
                                 </span>
                                 <button type="button" class="mat-stroked-button"
                                     (click)="downloadMarkSheet()">Download</button>
