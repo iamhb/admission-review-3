@@ -157,16 +157,22 @@ export class AdmissionComponent implements OnInit {
             console.log(this.stud);
             this.authService.doAdmission(this.stud).subscribe(
                 res => {
-                    alert("Saved Successfully")
+                    if (this.stud.status == 'F') {
+                        console.log("in f")
+                        window.location.href = "https://rzp.io/l/payl";
+                    }
                     // this.showAlertMsg("Success", "Saved Successfully", true, false).subscribe();
                     // console.log(res)
                     this.stud = res;
+                    console.log("after save response")
+                    console.log(this.stud)
+                    // console.log("stud status...", this.stud.status)
+                    alert("Saved Successfully")
                     this.getStudDetails();
                     this.setUndefined();
+                    console.log()
                 }, err => {
                     alert("Server Error");
-                    // this.showAlertMsg("Error", "Server Error", true, false).subscribe();
-                    // console.log(err)
                 }
             )
         } else {
